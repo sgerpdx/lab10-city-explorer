@@ -1,7 +1,7 @@
 {
   "name": "alchemy-sql-be-template",
   "version": "1.0.0",
-  "description": "",
+  "description": "1. Clone your repo down and run `npm i` to install dependencies.\r 1. Change all the files in the `data` directory to match the data model of your app.\r 1. Run `heroku create`\r 1. Run `npm run setup-heroku` to create a heroku SQL database in the cloud to go with your heroku app.\r 1. Run `heroku config:get DATABASE_URL` to get your heroku sql database url from the cloud.\r 1. Put the database URL in your .env file, under `DATABASE_URL`. (Don't forget to changge the file name from `.env-example` to `.env`!)\r 1. Run `npm run setup-db`\r 1. Run `npm run start:watch` to start the dev server\r 1. Routes are in `app.js`, not in `server.js`. This is so our tests will not launch a server every time.",
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose --runInBand",
@@ -39,5 +39,16 @@
     "morgan": "^1.10.0",
     "pg": "^8.5.1",
     "superagent": "^6.1.0"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgerpdx/lab10-city-explorer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sgerpdx/lab10-city-explorer/issues"
+  },
+  "homepage": "https://github.com/sgerpdx/lab10-city-explorer#readme"
 }
