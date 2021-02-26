@@ -77,5 +77,86 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
     });
+
+
+    test('returns weather forecast by time', async () => {
+
+      const expectation = [
+        {
+          "forecast": "Scattered clouds",
+          "time": "Tue May 05 2020"
+        },
+        {
+          "forecast": "Light snow",
+          "time": "Wed May 06 2020"
+        },
+        {
+          "forecast": "Few clouds",
+          "time": "Thu May 07 2020"
+        },
+        {
+          "forecast": "Few clouds",
+          "time": "Fri May 08 2020"
+        },
+        {
+          "forecast": "Broken clouds",
+          "time": "Sat May 09 2020"
+        },
+        {
+          "forecast": "Overcast clouds",
+          "time": "Sun May 10 2020"
+        },
+        {
+          "forecast": "Overcast clouds",
+          "time": "Mon May 11 2020"
+        },
+        {
+          "forecast": "Light rain",
+          "time": "Tue May 12 2020"
+        },
+        {
+          "forecast": "Light rain",
+          "time": "Wed May 13 2020"
+        },
+        {
+          "forecast": "Light rain",
+          "time": "Thu May 14 2020"
+        },
+        {
+          "forecast": "Overcast clouds",
+          "time": "Fri May 15 2020"
+        },
+        {
+          "forecast": "Light shower rain",
+          "time": "Sat May 16 2020"
+        },
+        {
+          "forecast": "Light rain",
+          "time": "Sun May 17 2020"
+        },
+        {
+          "forecast": "Overcast clouds",
+          "time": "Mon May 18 2020"
+        },
+        {
+          "forecast": "Overcast clouds",
+          "time": "Tue May 19 2020"
+        },
+        {
+          "forecast": "Overcast clouds",
+          "time": "Wed May 20 2020"
+        }
+      ]
+
+      const data = await fakeRequest(app)
+        .get('/weather')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
+
+
   });
 });
