@@ -5,7 +5,7 @@ const { execSync } = require('child_process');
 const fakeRequest = require('supertest');
 const app = require('../lib/app');
 const client = require('../lib/client');
-const { formatPlaceData, formatWeatherData } = require('../lib/munge-utils');
+const { formatPlaceData, formatWeatherData, formatReviewData } = require('../lib/munge-utils');
 
 describe('app routes', () => {
   describe('routes', () => {
@@ -31,134 +31,6 @@ describe('app routes', () => {
     afterAll(done => {
       return client.end(done);
     });
-
-    // test('returns animals', async() => {
-
-    //   const expectation = [
-    //     {
-    //       'id': 1,
-    //       'name': 'bessie',
-    //       'coolfactor': 3,
-    //       'owner_id': 1
-    //     },
-    //     {
-    //       'id': 2,
-    //       'name': 'jumpy',
-    //       'coolfactor': 4,
-    //       'owner_id': 1
-    //     },
-    //     {
-    //       'id': 3,
-    //       'name': 'spot',
-    //       'coolfactor': 10,
-    //       'owner_id': 1
-    //     }
-    //   ];
-
-    //   const data = await fakeRequest(app)
-    //     .get('/animals')
-    //     .expect('Content-Type', /json/)
-    //     .expect(200);
-
-    //   expect(data.body).toEqual(expectation);
-    // });
-
-
-
-    // test('returns name and coordinates of a city', async () => {
-
-    //   const expectation = {
-    //     "formatted_query": "Portland, Multnomah County, Oregon, USA",
-    //     "latitude": "45.5202471",
-    //     "longitude": "-122.6741949"
-    //   }
-
-    //   const data = await fakeRequest(app)
-    //     .get('/location')
-    //     .expect('Content-Type', /json/)
-    //     .expect(200);
-
-    //   expect(data.body).toEqual(expectation);
-    // });
-
-
-
-    // test('returns weather forecast by time', async () => {
-
-    // const expectation = [
-    //   {
-    //     "forecast": "Scattered clouds",
-    //     "time": "Tue May 05 2020"
-    //   },
-    //   {
-    //     "forecast": "Light snow",
-    //     "time": "Wed May 06 2020"
-    //   },
-    //   {
-    //     "forecast": "Few clouds",
-    //     "time": "Thu May 07 2020"
-    //   },
-    //   {
-    //     "forecast": "Few clouds",
-    //     "time": "Fri May 08 2020"
-    //   },
-    //   {
-    //     "forecast": "Broken clouds",
-    //     "time": "Sat May 09 2020"
-    //   },
-    //   {
-    //     "forecast": "Overcast clouds",
-    //     "time": "Sun May 10 2020"
-    //   },
-    //   {
-    //     "forecast": "Overcast clouds",
-    //     "time": "Mon May 11 2020"
-    //   },
-    //   {
-    //     "forecast": "Light rain",
-    //     "time": "Tue May 12 2020"
-    //   },
-    //   {
-    //     "forecast": "Light rain",
-    //     "time": "Wed May 13 2020"
-    //   },
-    //   {
-    //     "forecast": "Light rain",
-    //     "time": "Thu May 14 2020"
-    //   },
-    //   {
-    //     "forecast": "Overcast clouds",
-    //     "time": "Fri May 15 2020"
-    //   },
-    //   {
-    //     "forecast": "Light shower rain",
-    //     "time": "Sat May 16 2020"
-    //   },
-    //   {
-    //     "forecast": "Light rain",
-    //     "time": "Sun May 17 2020"
-    //   },
-    //   {
-    //     "forecast": "Overcast clouds",
-    //     "time": "Mon May 18 2020"
-    //   },
-    //   {
-    //     "forecast": "Overcast clouds",
-    //     "time": "Tue May 19 2020"
-    //   },
-    //   {
-    //     "forecast": "Overcast clouds",
-    //     "time": "Wed May 20 2020"
-    //   }
-    // ]
-
-    //   const data = await fakeRequest(app)
-    //     .get('/weather')
-    //     .expect('Content-Type', /json/)
-    //     .expect(200);
-
-    //   expect(data.body).toEqual(expectation);
-    // });
 
 
 
@@ -1162,6 +1034,68 @@ describe('app routes', () => {
     });
 
 
+    test('takes in reviews API data and returns formatted object', async () => {
+
+      const dataAPI = {
+        "total": 8228,
+        "businesses": [
+          {
+            "rating": 4,
+            "price": "$",
+            "phone": "+14152520800",
+            "id": "E8RJkjfdcwgtyoPMjQ_Olg",
+            "alias": "four-barrel-coffee-san-francisco",
+            "is_closed": false,
+            "categories": [
+              {
+                "alias": "coffee",
+                "title": "Coffee & Tea"
+              }
+            ],
+            "review_count": 1738,
+            "name": "Four Barrel Coffee",
+            "url": "https://www.yelp.com/biz/four-barrel-coffee-san-francisco",
+            "coordinates": {
+              "latitude": 37.7670169511878,
+              "longitude": -122.42184275
+            },
+            "image_url": "http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg",
+            "location": {
+              "city": "San Francisco",
+              "country": "US",
+              "address2": "",
+              "address3": "",
+              "state": "CA",
+              "address1": "375 Valencia St",
+              "zip_code": "94103"
+            },
+            "distance": 1604.23,
+            "transactions": ["pickup", "delivery"]
+          },
+          // ...
+        ],
+        "region": {
+          "center": {
+            "latitude": 37.767413217936834,
+            "longitude": -122.42820739746094
+          }
+        }
+      };
+
+      const expectation = [
+        {
+          "name": "Four Barrel Coffee",
+          "image_url": "http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg",
+          "price": "$",
+          "rating": 4,
+          "url": "https://www.yelp.com/biz/four-barrel-coffee-san-francisco"
+        },
+      ];
+
+      const data = formatReviewData(dataAPI);
+
+      expect(data).toEqual(expectation);
+    });
 
   });
 });
