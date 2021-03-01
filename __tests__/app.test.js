@@ -235,10 +235,7 @@ describe('app routes', () => {
         "longitude": "-122.6741949"
       }
 
-      const data = formatPlaceData(dataAPI) // thefunction(fakedata) (no await) and make some fake data
-      // .get('/location')
-      // .expect('Content-Type', /json/)
-      // .expect(200);
+      const data = formatPlaceData(dataAPI)
 
       expect(data).toEqual(expectation);
     });
